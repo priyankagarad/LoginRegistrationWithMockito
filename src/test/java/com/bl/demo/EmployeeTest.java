@@ -22,7 +22,7 @@ public class EmployeeTest {
     IEmployeeService employeeService;
 
     @Test
-    void userRegister() {
+    public void givenEmployee_whenRegister_shouldAddDetail() {
         Employee employee=new Employee(1,"priya","p@gmail.com","123");
         when(employeeRepository.save(employee)).thenReturn(employee);
         Employee employee1=employeeService.addEmployee(employee);
@@ -30,7 +30,7 @@ public class EmployeeTest {
     }
 
     @Test
-    void userLogin() {
+    public void givenRegisterEmployee_whenLogin_shouldReturnSuceesfullyLogin() {
         Employee employee=new Employee(1,"priya","p@gmail.com","123");
         when(employeeRepository.save(employee)).thenReturn(employee);
         Employee employee1=employeeService.loginProcess(employee);

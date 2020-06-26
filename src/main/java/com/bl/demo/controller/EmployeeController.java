@@ -12,7 +12,7 @@ public class EmployeeController {
     @Autowired
     public IEmployeeService employeeService;
 
-    @PostMapping("/login")
+    @PostMapping("/login/id")
     public Employee display(@RequestBody Employee employee){
             return employeeService.loginProcess(employee);
     }
