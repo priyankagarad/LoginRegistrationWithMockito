@@ -14,5 +14,4 @@ public class EmployeeServiceImpl implements IEmployeeService{
     public Employee addEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
-
 }

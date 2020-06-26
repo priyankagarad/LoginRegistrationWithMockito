@@ -2,7 +2,7 @@ package com.bl.demo.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table
@@ -11,7 +11,6 @@ public class Employee {
     private String name;
     private String emailId;
     private String password;
-    private Date registerDate;
 
     public Employee(long id, String name, String emailId, String password) {
         this.id = id;
@@ -55,12 +54,15 @@ public class Employee {
         this.password = password;
     }
 
-    public Date getRegisterDate() {
-        return registerDate;
-    }
-
-    public void setRegisterDate(Date registerDate) {
-        this.registerDate = registerDate;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return id == employee.id &&
+                Objects.equals(name, employee.name) &&
+                Objects.equals(emailId, employee.emailId) &&
+                Objects.equals(password, employee.password);
     }
 }
 
