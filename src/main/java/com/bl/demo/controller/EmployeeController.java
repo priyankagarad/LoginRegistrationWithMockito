@@ -12,6 +12,11 @@ public class EmployeeController {
     @Autowired
     public IEmployeeService employeeService;
 
+    @PostMapping("/login")
+    public Employee display(@RequestBody Employee employee){
+            return employeeService.loginProcess(employee);
+    }
+
     @PostMapping("/register")
     public Employee addEmployee(@RequestBody Employee employee) {
         return employeeService.addEmployee(employee);

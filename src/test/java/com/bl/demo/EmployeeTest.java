@@ -28,4 +28,12 @@ public class EmployeeTest {
         Employee employee1=employeeService.addEmployee(employee);
         Assert.assertEquals(employee1,employee);
     }
+
+    @Test
+    void userLogin() {
+        Employee employee=new Employee(1,"priya","p@gmail.com","123");
+        when(employeeRepository.save(employee)).thenReturn(employee);
+        Employee employee1=employeeService.loginProcess(employee);
+        Assert.assertEquals(employee1,employee);
+    }
 }
