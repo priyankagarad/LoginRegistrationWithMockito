@@ -12,7 +12,7 @@ public class EmployeeServiceImpl implements IEmployeeService{
 
     @Override
     public Employee addEmployee(Employee employee) {
-        return null;
+        return employeeRepository.save(employee);
     }
-    
+
 }
