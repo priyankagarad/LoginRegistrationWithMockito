@@ -8,15 +8,23 @@ import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements IEmployeeService{
-
     @Autowired
     IEmployeeRepository employeeRepository;
 
+    /**+
+     * @param employee :Reference of Model Class
+     * @return
+     */
     @Override
     public Employee addEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
 
+    /**
+     * @Purpose: check the Username and password are Match or not in the database
+     * @param employee :Reference of Model Class
+     * @return
+     */
     @Override
     public Employee loginProcess(Employee employee) {
         List<Employee> list = employeeRepository.findAll();

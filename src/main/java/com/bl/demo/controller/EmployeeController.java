@@ -1,3 +1,8 @@
+/*********************************************************************************************************************
+ * @purpose: In EmployeeController Class Two api Created for login and registration.
+ * @Author: Priyanka
+ * @Date: 27/6/2020
+ *********************************************************************************************************************/
 package com.bl.demo.controller;
 import com.bl.demo.model.Employee;
 import com.bl.demo.service.IEmployeeService;
@@ -8,11 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class EmployeeController {
-
     @Autowired
     public IEmployeeService employeeService;
 
-    @PostMapping("/login/id")
+    @PostMapping("/login")
     public Employee display(@RequestBody Employee employee){
             return employeeService.loginProcess(employee);
     }
