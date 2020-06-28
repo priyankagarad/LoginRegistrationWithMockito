@@ -25,6 +25,9 @@ public class Employee {
 
     public Employee(){}
 
+    public Employee(String name, String password) {
+    }
+
     @Id
     public long getId() {
         return id;

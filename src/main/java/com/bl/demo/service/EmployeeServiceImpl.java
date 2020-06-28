@@ -11,6 +11,11 @@ public class EmployeeServiceImpl implements IEmployeeService{
     @Autowired
     IEmployeeRepository employeeRepository;
 
+    public String greeting(){
+        return "Welcome";
+
+    }
+
     /**+
      * @param employee :Reference of Model Class
      * @return

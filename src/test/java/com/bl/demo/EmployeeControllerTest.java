@@ -1,44 +1,55 @@
 package com.bl.demo;
+import com.bl.demo.controller.EmployeeController;
 import com.bl.demo.model.Employee;
-import com.bl.demo.repository.IEmployeeRepository;
 import com.bl.demo.service.IEmployeeService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import static org.mockito.BDDMockito.given;
 
-import static org.mockito.Mockito.when;
-
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@WebMvcTest (EmployeeController.class)
 public class EmployeeControllerTest {
-    List<Employee> employeeList = new ArrayList<>();
-
-
-    @Mock
-    IEmployeeRepository employeeRepository;
-
     @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
     IEmployeeService employeeService;
 
     @Test
-    public void givenEmployee_whenRegister_shouldAddDetail() {
-        Employee employee=new Employee(1,"priya","p@gmail.com","123");
-        when(employeeRepository.save(employee)).thenReturn(employee);
-        Employee employee1=employeeService.addEmployee(employee);
-        Assert.assertEquals(employee1,employee);
+    public void givenApi_WhenMap_shouldReturnGreetingMessage() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get("/"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Welcome"));
+    }
+
+    private String mapToJson(Object object) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(object);
     }
 
     @Test
-    public void givenRegisterEmployee_whenLogin_shouldReturnSuceesfullyLogin() {
-        Employee employee=new Employee(1,"priya","p@gmail.com","123");
-        when(employeeRepository.save(employee)).thenReturn(employee);
-        Employee employee1=employeeService.loginProcess(employee);
-        Assert.assertEquals(employee1,employee);
+    public void givenApi_WhenUserNameAndPasswordAreCorrect_ShouldReturnEmployee() throws Exception {
+        Employee employee=new Employee("priyanka","123");
+        String inputJson=this.mapToJson(employee);
+        given(employeeService.addEmployee(employee)).willReturn(new Employee());
+        MockHttpServletRequestBuilder requestBuilder= MockMvcRequestBuilders.post("/register")
+                .accept(MediaType.APPLICATION_JSON).content(inputJson)
+                .contentType(MediaType.APPLICATION_JSON);
+        MvcResult mvcResult=this.mockMvc.perform(requestBuilder)
+                .andReturn();
+        MockHttpServletResponse response=mvcResult.getResponse();
+        String contentAsString=response.getContentAsString();
+        Assert.assertEquals(contentAsString,inputJson);
     }
 }
