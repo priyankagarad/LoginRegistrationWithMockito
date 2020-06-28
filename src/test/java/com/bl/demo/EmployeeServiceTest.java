@@ -36,7 +36,7 @@ public class EmployeeServiceTest {
     public void givenRegisterEmployee_whenLogin_shouldReturnSuceesfullyLogin() {
         Employee employee = new Employee(1, "priya", "p@gmail.com", "123");
         when(employeeRepository.save(employee)).thenReturn(employee);
-        Employee employee1 = employeeService.addEmployee(employee);
+        Employee employee1 = employeeService.loginProcess(employee);
         Assert.assertEquals(employee1, employee);
     }
 }

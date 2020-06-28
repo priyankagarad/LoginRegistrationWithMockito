@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @WebMvcTest (EmployeeController.class)
@@ -40,16 +41,30 @@ public class EmployeeControllerTest {
 
     @Test
     public void givenApi_WhenUserNameAndPasswordAreCorrect_ShouldReturnEmployee() throws Exception {
-        Employee employee=new Employee("priyanka","123");
-        String inputJson=this.mapToJson(employee);
+        Employee employee = new Employee("priyanka", "123");
+        String inputJson = this.mapToJson(employee);
         given(employeeService.addEmployee(employee)).willReturn(new Employee());
-        MockHttpServletRequestBuilder requestBuilder= MockMvcRequestBuilders.post("/register")
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/register")
                 .accept(MediaType.APPLICATION_JSON).content(inputJson)
                 .contentType(MediaType.APPLICATION_JSON);
-        MvcResult mvcResult=this.mockMvc.perform(requestBuilder)
+        MvcResult mvcResult = this.mockMvc.perform(requestBuilder)
                 .andReturn();
-        MockHttpServletResponse response=mvcResult.getResponse();
-        String contentAsString=response.getContentAsString();
-        Assert.assertEquals(contentAsString,inputJson);
+        MockHttpServletResponse response = mvcResult.getResponse();
+        String contentAsString = response.getContentAsString();
+        Assert.assertEquals(contentAsString, inputJson);
+    }
+
+    @Test
+    public void givenEmployee_WhenInformationPassed_ShouldReturnEmployee() throws Exception {
+        Employee employee = new Employee(1, "priya", "P@gmail.com", "123");
+        String employeeJson = this.mapToJson(employee);
+        given(employeeService.addEmployee(any(Employee.class))).willReturn(employee);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/register")
+                .accept(MediaType.APPLICATION_JSON).content(employeeJson)
+                .contentType(MediaType.APPLICATION_JSON);
+        MvcResult mvcResult = this.mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = mvcResult.getResponse();
+        String responseInJson = response.getContentAsString();
+        Assert.assertEquals(responseInJson, employeeJson);
     }
 }
