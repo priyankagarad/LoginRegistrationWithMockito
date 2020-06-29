@@ -1,5 +1,6 @@
 package com.bl.demo;
 import com.bl.demo.model.Employee;
+import com.bl.demo.model.Login;
 import com.bl.demo.repository.IEmployeeRepository;
 import com.bl.demo.service.IEmployeeService;
 import org.junit.Assert;
@@ -33,10 +34,13 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void givenRegisterEmployee_whenLogin_shouldReturnSuceesfullyLogin() {
+    public void givenRegisterEmployee_whenLogin_shouldReturnLogin() {
         Employee employee = new Employee(1, "priya", "p@gmail.com", "123");
+        Login login = new Login();
+        login.setName("priya");
+        login.setPassword("123");
         when(employeeRepository.save(employee)).thenReturn(employee);
-        Employee employee1 = employeeService.loginProcess(employee);
+        Employee employee1 = employeeService.loginProcess(login);
         Assert.assertEquals(employee1, employee);
     }
 }

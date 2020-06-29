@@ -5,15 +5,14 @@
  *********************************************************************************************************************/
 package com.bl.demo.controller;
 import com.bl.demo.model.Employee;
+import com.bl.demo.model.Login;
 import com.bl.demo.service.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class EmployeeController {
+
     @Autowired
     public IEmployeeService employeeService;
 
@@ -23,8 +22,8 @@ public class EmployeeController {
     }
 
     @PostMapping("/login")
-    public Employee display(@RequestBody Employee employee){
-            return employeeService.loginProcess(employee);
+    public Employee display(@RequestBody Login login){
+        return employeeService.loginProcess(login);
     }
 
     @PostMapping("/register")

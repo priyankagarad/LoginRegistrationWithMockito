@@ -41,21 +41,6 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void givenApi_WhenUserNameAndPasswordAreCorrect_ShouldReturnEmployee() throws Exception {
-        Employee employee = new Employee("priyanka", "123");
-        String inputJson = this.mapToJson(employee);
-        given(employeeService.addEmployee(employee)).willReturn(new Employee());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/register")
-                .accept(MediaType.APPLICATION_JSON).content(inputJson)
-                .contentType(MediaType.APPLICATION_JSON);
-        MvcResult mvcResult = this.mockMvc.perform(requestBuilder)
-                .andReturn();
-        MockHttpServletResponse response = mvcResult.getResponse();
-        String contentAsString = response.getContentAsString();
-        Assert.assertEquals(contentAsString, inputJson);
-    }
-
-    @Test
     public void givenEmployee_WhenInformationPassed_ShouldReturnEmployee() throws Exception {
         Employee employee = new Employee(1, "priya", "P@gmail.com", "123");
         String employeeJson = this.mapToJson(employee);
